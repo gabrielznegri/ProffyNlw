@@ -2,38 +2,58 @@ import React from 'react';
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
+import api from '../../services/api';
+
 import './styles.css';
 
-function TeacherItem() {
-    return (
-        <article className="teacher-item">
-            <header>
-                <img src="https://yt3.ggpht.com/a-/AOh14GjFXiTuNht_X6VEwloIw4HoCPUsCxHMBk7AEJzutQ=s88-c-k-c0xffffffff-no-rj-mo" alt="Gabriel" />
+export interface Teacher {
+  id: number;
+  avatar: string;
+  bio: string;
+  cost: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}
 
-                <div>
-                    <strong>Gabriel</strong>
-                    <span>Química</span>
-                </div>
-            </header>
+export interface TeacherItemProps {
+  teacher: Teacher;
+}
 
-            <p>
-                TESTE
-            <br /><br />
-            TESTE
-          </p>
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+  function createNewConnection() {
+    api.post('connections', {
+      user_id: teacher.id,
+    });
+  }
 
-            <footer>
-                <p>
-                    Preço/hora
-              <strong>R$80,00</strong>
-                </p>
-                <button>
-                    <img src={whatsappIcon} alt="Whatsapp" />
-              Entrar em contato
-            </button>
-            </footer>
-        </article>
-    );
+  return (
+    <article className="teacher-item">
+      <header>
+        <img src={teacher.avatar} alt={teacher.name} />
+        <div>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
+        </div>
+      </header>
+      <p>{teacher.bio}</p>
+
+      <footer>
+        <p>
+          Preço/hora
+          <strong>R$ {teacher.cost}</strong>
+        </p>
+        <a
+          onClick={createNewConnection}
+          target="_blank"
+          href={`https://wa.me/${teacher.whatsapp}`}
+        >
+          <img src={whatsappIcon} alt="Whatsapp"/>
+          Entrar em contato
+        </a>
+      </footer>
+    </article>
+  );
 }
 
 export default TeacherItem;
