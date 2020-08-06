@@ -43,8 +43,6 @@ function TeacherForm() {
       return scheduleItem;
     });
 
-    console.log(updatedScheduleItems);
-
     setScheduleItems(updatedScheduleItems);
   }
 
@@ -155,7 +153,7 @@ function TeacherForm() {
 
             {scheduleItems.map((scheduleItem, index) => {
               return (
-                <div key={scheduleItem.week_day} className="schedule-item">
+                <div key={index} className="schedule-item">
                   <Select
                     name="week_day"
                     label="Dia da semana"
@@ -192,7 +190,7 @@ function TeacherForm() {
 
           <footer>
             <p>
-              <img src={warningIcon} alt="Aviso importante"/>
+              <img src={warningIcon} alt="Aviso importante" />
               Importante! <br />
               Preencha todos os dados
             </p>
